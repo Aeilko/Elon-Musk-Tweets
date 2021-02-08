@@ -1,0 +1,10 @@
+# Project files
+settings.json
+prev_id
+
+# Python
+/venv
+__pycache__
+
+# JetBeans
+/.idea
