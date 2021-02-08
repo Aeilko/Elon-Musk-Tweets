@@ -12,7 +12,7 @@ PROJECT_SETTINGS = None
 BASE_DIR = os.path.dirname(__file__)
 
 def check_for_tweets():
-    twitter = Twitter(CONFIG_FILE)
+    twitter = Twitter(os.path.join(BASE_DIR, CONFIG_FILE))
 
     try:
         # Check which tweets have already been processed
