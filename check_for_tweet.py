@@ -2,20 +2,21 @@ from datetime import datetime
 from notify_run import Notify
 from twitter import Twitter
 
+import os
 import sys
 import json
 
 
 CONFIG_FILE = "settings.json"
 PROJECT_SETTINGS = None
-
+BASE_DIR = os.path.dirname(__file__)
 
 def check_for_tweets():
     twitter = Twitter(CONFIG_FILE)
 
     try:
         # Check which tweets have already been processed
-        with open("prev_id", "r") as file:
+        with open(os.path.join(BASE_DIR, "prev_id"), "r") as file:
             prev_id = int(file.read())
     except FileNotFoundError:
         # File 'prev_id' does not exist, set it as his most recent tweet
@@ -24,7 +25,7 @@ def check_for_tweets():
 
 
     # Load the keywords we are checking for
-    with open("keywords", "r") as file:
+    with open(os.path.join(BASE_DIR, "keywords"), "r") as file:
         keys = file.read()
     keywords = keys.split("\n")
 
@@ -44,7 +45,7 @@ def check_for_tweets():
             max_id = id
 
     # Save our progress
-    with open("prev_id", "w") as file:
+    with open(os.path.join(BASE_DIR, "prev_id"), "w") as file:
         file.write(str(max_id))
 
     # Notify if necessary
@@ -69,7 +70,7 @@ if __name__ == '__main__':
         notify.read_config()
         print(notify.info())
     else:
-        with open(CONFIG_FILE, 'r') as f:
+        with open(os.path.join(BASE_DIR, CONFIG_FILE), 'r') as f:
             data = f.read()
 
         PROJECT_SETTINGS = json.loads(data)
